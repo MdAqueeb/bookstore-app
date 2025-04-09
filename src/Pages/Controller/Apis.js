@@ -112,8 +112,7 @@ export const AddToWishlist = async (bookid) => {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       }
-      
-     })
+     });
 
      console.log(response.data);
      return response.data;
@@ -124,3 +123,92 @@ export const AddToWishlist = async (bookid) => {
     
   }
 }
+
+export const RemoveWishlistItem = async (bookid) => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error("User is not Authenticated");
+    }
+    console.log(token);
+    
+    const response = await axios.delete(`${API_URL}/RemoveWishlist/${bookid}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error in deleting item from wishlist: ", error);
+    throw error;
+  }
+};
+
+export const GetCart = async () => {
+  try{
+
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+      throw new Error('User is not authenticated');
+    }
+    const response = await axios.get(`${API_URL}/GetCartItems`,{
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+    });
+    console.log(token);
+    return response.data
+  } catch (error) {
+    throw new Error('Failed to fetch Profile Data');
+  }
+};
+
+export const RemoveCartItem = async (bookid) => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error("User is not Authenticated");
+    }
+    console.log(token);
+    
+    const response = await axios.delete(`${API_URL}/RemoveCartItem/${bookid}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error in deleting item from wishlist: ", error);
+    throw error;
+  }
+}
+
+export const AddToCart = async (bookid) => {
+  try{
+     const token = localStorage.getItem('authToken');
+     if(!token) {
+      throw new Error("User is not Authenticated");
+     }
+     const response = await axios.post(`${API_URL}/AddCartItem/${bookid}`,{},{
+      headers :{
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+     });
+
+     console.log(response.data);
+     return response.data;
+  } catch (error){
+    console.error("Error adding item to wishlist:", error);
+    throw error;
+    // throw new Error("Error adding item to wishlist:");
+    
+  }
+}
+

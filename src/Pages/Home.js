@@ -1,6 +1,6 @@
 import React from 'react';
 import Header  from '../Components/Header';
-import Article  from '../Components/Article1';
+import Article1  from '../Components/Article1';
 
 const Home = () => {
 
@@ -9,7 +9,7 @@ const Home = () => {
     <>
       <Header/>
       <main>
-        <Article/>
+        <Article1/>
       </main>
     </>
   );

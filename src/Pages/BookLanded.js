@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 // import Header from '../Components/Header';
-import { GetAllBooks, AddToWishlist } from './Controller/Apis';
+import { GetAllBooks, AddToWishlist,AddToCart } from './Controller/Apis';
 import HeaderLogin from '../Components/HeaderLogin';
 
 const BookLanded = () => {
@@ -12,6 +12,8 @@ const BookLanded = () => {
   const [error, setError] = useState(null);  // State to track errors if any
   const [err,setWishlistError] = useState(null);
   const [successmessage, setSuccessMessage] = useState(null);
+  const [cartMessage,setCartMessage] = useState(null);
+  const [carterr,setCartError] = useState(null);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -37,6 +39,46 @@ const BookLanded = () => {
   const closeModal = () => {
     setSelectedBook(null);
   };
+
+  const handleAddToCart = async (book) => {
+    setLoading(true);
+  
+    try {
+      await AddToCart(book);
+      setCartError('');  // Clear any errors
+      setCartMessage('Added successfully to wishlist!');
+      console.log("Success message set:", cartMessage);  // Log here
+    } catch (carterr) {
+      setCartError('Failed to Add to Wishlist.');
+      setCartMessage('');
+      console.log("Error occurred:", carterr);  // Log here
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  useEffect(() => {
+    // If a success message is set, start a timer to clear it after 2 seconds
+    if (cartMessage) {
+      const timer = setTimeout(() => {
+        setCartMessage(null);  // Clear the success message after 2 seconds
+      }, 2000);
+
+      // Clean up the timer if the component unmounts or the success message changes
+      return () => clearTimeout(timer);
+    }
+  }, [cartMessage]);
+
+  useEffect(() => {
+    if (carterr) {
+      const timer = setTimeout(() => {
+        setCartError(null);  // Clear the success message after 2 seconds
+      }, 2000);
+      console.log("Error message updated:", carterr);
+      return () => clearTimeout(timer)
+    }
+  }, [carterr]);
 
   const handleAddToWishlist = async (book) => {
     setLoading(true);
@@ -118,6 +160,17 @@ const BookLanded = () => {
           </div>
         )}
 
+        {cartMessage && (
+          <div className="bg-green-100 text-green-800 p-4 rounded mb-4">
+            {cartMessage}
+          </div>
+        )}
+        {carterr && (
+          <div className="bg-red-100 text-red-800 p-4 rounded mb-4">
+            {carterr}
+          </div>
+        )}
+
         {/* Books Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
           {books.map(book => (
@@ -139,6 +192,7 @@ const BookLanded = () => {
               </div>
               <div className="mt-8">
                 <button
+C
                   type="submit"
                   className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium"
                 >
@@ -182,11 +236,10 @@ const BookLanded = () => {
 
                     <p className="text-gray-700 mb-6">{selectedBook.description}</p>
                     <div>
-                      <Link to="/profile">
-                        <button className="w-full bg-white-600 text-blue px-4 py-2 rounded hover:bg-blue-700 transition-colors">
-                          Add Cart
-                        </button>
-                      </Link>
+                      <button className="w-full bg-white-600 text-blue px-4 py-2 rounded hover:bg-blue-700 transition-colors"
+                      onClick={() => handleAddToCart(selectedBook.bookid)}>
+                        Add Cart
+                      </button>
                     </div>
                     <div>
                       <button 

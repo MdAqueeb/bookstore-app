@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GetWishlist } from './Controller/Apis'; // Assuming there's a function to delete the item
+import { GetWishlist, RemoveWishlistItem } from './Controller/Apis'; // Assuming there's a function to delete the item
 import { useNavigate } from 'react-router-dom';
 
 const Wishlist = () => {
@@ -23,12 +23,17 @@ const Wishlist = () => {
 
   // Function to handle item removal
   const handleRemoveItem = async (itemId) => {
-    // try {
-    //   await DeleteWishlistItem(itemId); // Assuming DeleteWishlistItem deletes an item by its ID
-    //   setWishlist(wishlist.filter(item => item.id !== itemId)); // Remove the item from the state
-    // } catch (error) {
-    //   console.error("Error removing item:", error);
-    // }
+    try {
+      await RemoveWishlistItem(itemId); // Assuming RemoveWishlistItem deletes an item by its ID
+      // Remove the item from the state by filtering out the deleted item
+      const data = await GetWishlist();
+      setWishlist(data);
+      navigate('/wishlist')
+      // setWishlist(prevWishlist => prevWishlist.filter(item => item.id !== itemId));
+
+    } catch (error) {
+      console.error("Error removing item:", error);
+    }
   };
 
   return (
@@ -38,7 +43,7 @@ const Wishlist = () => {
       ) : (
         <div className="space-y-4">
           {wishlist.map(item => (
-            <div key={item.id} className="flex items-center p-4 border border-gray-300 rounded-lg bg-white shadow-sm hover:shadow-md">
+            <div key={item.bookid} className="flex items-center p-4 border border-gray-300 rounded-lg bg-white shadow-sm hover:shadow-md">
               {/* Left Section: Image */}
               <div className="w-32 h-32">
                 <img src={item.image} alt={item.name} className="w-full h-full object-cover rounded-md" />
@@ -57,10 +62,10 @@ const Wishlist = () => {
                   <p className="text-m font-bold text-gray-900">Price: ${item.price}</p>
                   {/* Delete Button */}
                   <button 
-                    onClick={() => handleRemoveItem(item.id)}
+                    onClick={() => handleRemoveItem(item.bookid)}
                     className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none"
                   >
-                    Delete
+                    Delete {item.id}
                   </button>
                 </div>
               </div>

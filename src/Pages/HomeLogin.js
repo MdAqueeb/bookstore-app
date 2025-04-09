@@ -1,6 +1,6 @@
 import React from 'react';
 import HeaderLogin  from '../Components/HeaderLogin';
-import Article  from '../Components/Article1';
+import Article  from '../Components/Article';
 
 const HomeLogin = () => {
 

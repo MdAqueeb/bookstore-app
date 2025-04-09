@@ -11,6 +11,8 @@ import SignUp from './Pages/SignUp';
 import ForgotPassword from './Pages/ForgotPassword';
 import Profile from './Pages/Profile';
 import BookLanded from './Pages/BookLanded'
+import Wishlist from './Pages/Wishlist';
+import Cart from './Pages/Cart';
 // import Header from './Components/Header'
 
 function App() {
@@ -31,6 +33,8 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/book" element={<Navigate replace to="/books" />} />
           <Route path="*" element={<Navigate replace to="/" />} />
+          <Route path='/wishlist' element={<Wishlist />} />
+          <Route path='/cart' element={<Cart />} />
         </Routes>
       </div>
     </Router>
