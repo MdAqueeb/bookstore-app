@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AddRequestRole, GetRequestRole } from './Controller/Apis';
+import { useNavigate } from 'react-router-dom';
 
 const RequestSellerRole = () => {
   const [reason, setReason] = useState('');
@@ -7,8 +8,7 @@ const RequestSellerRole = () => {
   const [submitStatus, setSubmitStatus] = useState('');
   const [requestStatus, setRequestStatus] = useState(null);
   const [Requests, setRequestData] = useState([]);;
-
-  // Fetch request status on mount
+  const navigate = useNavigate();  // Fetch request status on mount
   useEffect(() => {
     const fetchStatus = async () => {
       try {
@@ -44,7 +44,9 @@ const RequestSellerRole = () => {
           setRequestStatus({
             date: new Date(response.data.date).toLocaleDateString(),
             status: response.data.status,
+            
           });
+  
         }
       } else {
         setSubmitStatus('Something went wrong. Please try again.');

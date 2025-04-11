@@ -208,9 +208,9 @@ export const AddToCart = async (bookid) => {
     console.error("Error adding item to wishlist:", error);
     throw error;
     // throw new Error("Error adding item to wishlist:");
-    
   }
 }
+
 export const GetRequestRole = async () => {
   try {
     const token = localStorage.getItem('authToken');
@@ -241,6 +241,75 @@ export const AddRequestRole = async (RequestForm) => {
     const response = await axios.post(
       `${API_URL}/AddRequest`,
       RequestForm, // This is the request body
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const AddBook = async (Book) => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('User is not authenticated');
+    }
+
+    const response = await axios.post(
+      `${API_URL}/seller/books`,
+      Book, // This is the request body
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const GetUserBooks = async () => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('User is not authenticated');
+    }
+
+    const response = await axios.get(`${API_URL}/seller/books`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const UpdateUserBook = async (Book,Bookid) => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('User is not authenticated');
+    }
+
+    const response = await axios.put(
+      `${API_URL}/seller/books/${Bookid}`,
+      Book, // This is the request body
       {
         headers: {
           'Authorization': `Bearer ${token}`,
