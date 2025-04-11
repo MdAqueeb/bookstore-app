@@ -3,17 +3,26 @@ import profilePic from '../assests/Default_pfp.jpg';
 import { GetProfile } from './Controller/Apis';
 import { useNavigate } from 'react-router-dom';
 import Wishlist from './Wishlist';
+import RequestSellerRole from './RequestSellerRole';
+import SalesOverview from './SalesOverview';
+import ManageBooks from './ManageBooks';
+// import ManageBooks from './ManageBooks';  // Seller specific
+// import SalesOverview from './SalesOverview';  // Seller specific
+import ManageUsers from './ManageUsers';  // Admin specific
+import ManageSellers from './ManageSellers';  // Admin specific
+// import SystemReports from './SystemReports';  // Admin specific
 
 const Profile = () => {
   const defaultPic = profilePic ? profilePic : null;
   const navigate = useNavigate();
-  const [selectedSection, setSelectedSection] = useState('profile'); 
+  const [selectedSection, setSelectedSection] = useState('wishlist'); 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState({
     name: '',
     email: '',
     avator: null,
+    role: ''
   });
 
   useEffect(() => {
@@ -25,14 +34,12 @@ const Profile = () => {
         }
       } catch (err) {
         console.error('Error:', err);
-
         // Check if the error is about user authentication
         if (err.message === 'User is not authenticated') {
-          // Redirect to SignIn page
           navigate('/signin');
         } else {
           setError('Error fetching profile data');
-          navigate("/signin")
+          navigate("/signin");
         }
       } finally {
         setLoading(false);
@@ -40,7 +47,7 @@ const Profile = () => {
     };
 
     fetchUserProfile();
-  }, [navigate]); // Added navigate to the dependency array
+  }, [navigate]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -51,11 +58,11 @@ const Profile = () => {
   }
 
   const handleLogout = () => {
-    // Clear the JWT token from localStorage (or sessionStorage)
     localStorage.removeItem('authToken');  // Or sessionStorage.removeItem('authToken') if using sessionStorage
-    navigate("/")
-    
+    navigate("/");
   };
+
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
@@ -74,25 +81,14 @@ const Profile = () => {
           </div>
           <h2 className="text-center mt-2 text-xl font-semibold">{userData.name}</h2>
           <p className="text-center text-gray-500">{userData.email}</p>
+          <p className="text-center text-gray-500">Role: {userData.role}</p>
           {error && <div className="text-red-500 text-center">{error}</div>}
         </div>
         <nav className="mt-4">
           <ul>
             <li>
               <a
-                href="</EditProfile>"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setSelectedSection('editprofile');
-                }}
-                className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
-              >
-                Edit Profile
-              </a>
-            </li>
-            <li>
-              <a
-                href="</Wishlist>"
+                href="#wishlist"
                 onClick={(e) => {
                   e.preventDefault();
                   setSelectedSection('wishlist');
@@ -104,7 +100,7 @@ const Profile = () => {
             </li>
             <li>
               <a
-                href="</Orders>"
+                href="#orders"
                 onClick={(e) => {
                   e.preventDefault();
                   setSelectedSection('orders');
@@ -116,7 +112,7 @@ const Profile = () => {
             </li>
             <li>
               <a
-                href="</Payment>"
+                href="#payments"
                 onClick={(e) => {
                   e.preventDefault();
                   setSelectedSection('payments');
@@ -126,11 +122,93 @@ const Profile = () => {
                 Payments
               </a>
             </li>
+            {userData.role === 'USER' && (
+              <li>
+                <a
+                  href="#requestsellerrole"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setSelectedSection('requestsellerrole');
+                  }}
+                  className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
+                >
+                  Request Seller Role
+                </a>
+              </li>
+            )}
+            {userData.role === 'SELLER' && (
+              <>
+                <li>
+                  <a
+                    href="#salesoverview"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSelectedSection('salesoverview');
+                    }}
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
+                  >
+                    Sales Overview
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#managebooks"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSelectedSection('managebooks');
+                    }}
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
+                  >
+                    Manage Books
+                  </a>
+                </li>
+              </>
+            )}
+            {userData.role === 'ADMIN' && (
+              <>
+                <li>
+                  <a
+                    href="#manageusers"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSelectedSection('manageusers');
+                    }}
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
+                  >
+                    Manage Users
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#managesellers"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSelectedSection('managesellers');
+                    }}
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
+                  >
+                    Manage Sellers
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#systemreports"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSelectedSection('systemreports');
+                    }}
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
+                  >
+                    System Reports
+                  </a>
+                </li>
+              </>
+            )}
             <li>
               <a
                 href="#logout"
                 onClick={handleLogout}
-                className="block px-4 py-2 text-gray-700 hover:bg-red-500 "
+                className="block px-4 py-2 text-gray-700 hover:bg-red-500"
               >
                 Logout
               </a>
@@ -141,14 +219,188 @@ const Profile = () => {
 
       {/* Main Content */}
       <div className="flex-1 p-6">
-        {/* Additional content can go here */}
-        {selectedSection === 'editprofile' && <div>Your Edit Profile</div>}
-        {selectedSection === 'wishlist' &&  <Wishlist></Wishlist>}
+        {selectedSection === 'wishlist' && <Wishlist />}
         {selectedSection === 'orders' && <div>Your orders</div>}
         {selectedSection === 'payments' && <div>Manage your payments</div>}
+        {selectedSection === 'requestsellerrole' && userData.role === 'USER' && <RequestSellerRole />}
+        {selectedSection === 'salesoverview' && userData.role === 'SELLER' && <SalesOverview />}
+        {selectedSection === 'managebooks' && userData.role === 'SELLER' && <ManageBooks />}
+        {selectedSection === 'manageusers' && userData.role === 'ADMIN' && <ManageUsers />}
+        {selectedSection === 'managesellers' && userData.role === 'ADMIN' && <ManageSellers />}
+        {selectedSection === 'systemreports' && userData.role === 'ADMIN' && "<SystemReports />"}
+
       </div>
     </div>
   );
 };
 
 export default Profile;
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useState, useEffect } from 'react';
+// import profilePic from '../assests/Default_pfp.jpg';
+// import { GetProfile } from './Controller/Apis';
+// import { useNavigate } from 'react-router-dom';
+// import Wishlist from './Wishlist';
+// import RequestSellerRole from './RequestSellerRole';
+
+// const Profile = () => {
+//   const defaultPic = profilePic ? profilePic : null;
+//   const navigate = useNavigate();
+//   const [selectedSection, setSelectedSection] = useState('profile'); 
+//   const [error, setError] = useState(null);
+//   const [loading, setLoading] = useState(true);
+//   const [userData, setUserData] = useState({
+//     name: '',
+//     email: '',
+//     avator: null,
+//     role : ''
+//   });
+
+//   useEffect(() => {
+//     const fetchUserProfile = async () => {
+//       try {
+//         const data = await GetProfile();
+//         if (data) {
+//           setUserData(data);
+//         }
+//       } catch (err) {
+//         console.error('Error:', err);
+
+//         // Check if the error is about user authentication
+//         if (err.message === 'User is not authenticated') {
+//           // Redirect to SignIn page
+//           navigate('/signin');
+//         } else {
+//           setError('Error fetching profile data');
+//           navigate("/signin")
+//         }
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchUserProfile();
+//   }, [navigate]); // Added navigate to the dependency array
+
+//   if (loading) {
+//     return <div>Loading...</div>;
+//   }
+
+//   if (error) {
+//     return <div>{error}</div>;
+//   }
+
+//   const handleLogout = () => {
+//     // Clear the JWT token from localStorage (or sessionStorage)
+//     localStorage.removeItem('authToken');  // Or sessionStorage.removeItem('authToken') if using sessionStorage
+//     navigate("/")
+    
+//   };
+//   return (
+//     <div className="flex min-h-screen bg-gray-100">
+//       {/* Sidebar */}
+//       <div className="w-64 bg-white shadow-md">
+//         <div className="p-4 border-b">
+//           <div className="w-24 h-24 rounded-full mx-auto bg-gray-300 flex items-center justify-center">
+//             {userData.avator ? (
+//               <img
+//                 src={userData.avator || defaultPic}
+//                 alt="Profile"
+//                 className="w-full h-full rounded-full object-cover"
+//               />
+//             ) : (
+//               <span className="text-white text-xl">{userData.name?.[0] || 'U'}</span>
+//             )}
+//           </div>
+//           <h2 className="text-center mt-2 text-xl font-semibold">{userData.name}</h2>
+//           <p className="text-center text-gray-500">{userData.email}</p>
+//           <p className="text-center text-gray-500">role : {userData.role}</p>
+//           {error && <div className="text-red-500 text-center">{error}</div>}
+//         </div>
+//         <nav className="mt-4">
+//           <ul>
+//             <li>
+//               <a
+//                 href="</RequestSellerRole>"
+//                 onClick={(e) => {
+//                   e.preventDefault();
+//                   setSelectedSection('requestsellerrole');
+//                 }}
+//                 className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
+//               >
+//                 Change Role 
+//               </a>
+//             </li>
+//             <li>
+//               <a
+//                 href="</Wishlist>"
+//                 onClick={(e) => {
+//                   e.preventDefault();
+//                   setSelectedSection('wishlist');
+//                 }}
+//                 className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
+//               >
+//                 Wishlist
+//               </a>
+//             </li>
+//             <li>
+//               <a
+//                 href="</Orders>"
+//                 onClick={(e) => {
+//                   e.preventDefault();
+//                   setSelectedSection('orders');
+//                 }}
+//                 className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
+//               >
+//                 Orders
+//               </a>
+//             </li>
+//             <li>
+//               <a
+//                 href="</Payment>"
+//                 onClick={(e) => {
+//                   e.preventDefault();
+//                   setSelectedSection('payments');
+//                 }}
+//                 className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
+//               >
+//                 Payments
+//               </a>
+//             </li>
+//             <li>
+//               <a
+//                 href="#logout"
+//                 onClick={handleLogout}
+//                 className="block px-4 py-2 text-gray-700 hover:bg-red-500 "
+//               >
+//                 Logout
+//               </a>
+//             </li>
+//           </ul>
+//         </nav>
+//       </div>
+
+//       {/* Main Content */}
+//       <div className="flex-1 p-6">
+//         {/* Additional content can go here */}
+//         {selectedSection === 'requestsellerrole' && <div><RequestSellerRole></RequestSellerRole></div>}
+//         {selectedSection === 'wishlist' &&  <Wishlist></Wishlist>}
+//         {selectedSection === 'orders' && <div>Your orders</div>}
+//         {selectedSection === 'payments' && <div>Manage your payments</div>}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Profile;

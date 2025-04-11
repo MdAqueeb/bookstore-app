@@ -211,4 +211,46 @@ export const AddToCart = async (bookid) => {
     
   }
 }
+export const GetRequestRole = async () => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('User is not authenticated');
+    }
 
+    const response = await axios.get(`${API_URL}/GetAllRequest`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const AddRequestRole = async (RequestForm) => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('User is not authenticated');
+    }
+
+    const response = await axios.post(
+      `${API_URL}/AddRequest`,
+      RequestForm, // This is the request body
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
