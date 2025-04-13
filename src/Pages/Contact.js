@@ -34,7 +34,7 @@ const Contact = () => {
         <div className="flex flex-col md:flex-row gap-10">
           {/* Contact Information */}
           <div className="md:w-1/3">
-            <div className="bg-blue-50 p-6 rounded-lg shadow mb-6">
+            {/* <div className="bg-blue-50 p-6 rounded-lg shadow mb-6">
               <h2 className="text-xl font-semibold mb-4">Our Information</h2>
               <div className="space-y-4">
                 <div className="flex items-start">
@@ -87,9 +87,9 @@ const Contact = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             
-            <div className="bg-blue-50 p-6 rounded-lg shadow">
+            {/* <div className="bg-blue-50 p-6 rounded-lg shadow">
               <h2 className="text-xl font-semibold mb-4">Follow Us</h2>
               <div className="flex space-x-4">
                 <a href="#" className="text-blue-500 hover:text-blue-700">
@@ -108,7 +108,7 @@ const Contact = () => {
                   </svg>
                 </a>
               </div>
-            </div>
+            </div> */}
           </div>
           
           {/* Contact Form */}
