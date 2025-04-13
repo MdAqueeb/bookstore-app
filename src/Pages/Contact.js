@@ -34,7 +34,7 @@ const Contact = () => {
         <div className="flex flex-col md:flex-row gap-10">
           {/* Contact Information */}
           <div className="md:w-1/3">
-            {/* <div className="bg-blue-50 p-6 rounded-lg shadow mb-6">
+            <div className="bg-blue-50 p-6 rounded-lg shadow mb-6">
               <h2 className="text-xl font-semibold mb-4">Our Information</h2>
               <div className="space-y-4">
                 <div className="flex items-start">
@@ -74,22 +74,22 @@ const Contact = () => {
                   </div>
                 </div>
                 
-                <div className="flex items-start">
+                {/* <div className="flex items-start">
                   <div className="mr-3 text-blue-500">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                  </div>
-                  <div>
+                  </div> */}
+                  {/* <div>
                     <h3 className="font-medium">Hours</h3>
                     <p className="text-gray-600">Monday-Friday: 9am - 8pm</p>
                     <p className="text-gray-600">Saturday-Sunday: 10am - 6pm</p>
-                  </div>
-                </div>
+                  </div> */}
+                {/* </div> */}
               </div>
-            </div> */}
+            </div>
             
-            {/* <div className="bg-blue-50 p-6 rounded-lg shadow">
+            <div className="bg-blue-50 p-6 rounded-lg shadow">
               <h2 className="text-xl font-semibold mb-4">Follow Us</h2>
               <div className="flex space-x-4">
                 <a href="#" className="text-blue-500 hover:text-blue-700">
@@ -108,7 +108,7 @@ const Contact = () => {
                   </svg>
                 </a>
               </div>
-            </div> */}
+            </div>
           </div>
           
           {/* Contact Form */}
