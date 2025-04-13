@@ -7,7 +7,7 @@ const Article1 = () => {
         <div className="OuterDiv flex justify-between items-center p-8">
             <div className="w-1/2">
                 <h1 className="text-3xl font-bold mb-4">
-                    Find your next great read at our online book store
+                Your next great adventure starts with a book—shop online now!
                 </h1>
                  
                 <Link to="/books" className="inline-block">
