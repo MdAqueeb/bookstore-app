@@ -37,9 +37,9 @@ const RequestSellerRole = () => {
     try {
       const response = await AddRequestRole({ reason });
 
-      if (response && response.success) {
+      if (response) {
         setSubmitStatus('Your request has been successfully submitted! We will review it shortly.');
-
+        alert("Request Sent Successfully!");
         if (response.data) {
           setRequestStatus({
             date: new Date(response.data.date).toLocaleDateString(),

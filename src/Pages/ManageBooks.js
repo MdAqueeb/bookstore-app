@@ -175,9 +175,9 @@ const ManageBooks = () => {
                 <td className="px-4 py-2">{book.author}</td>
                 <td className="px-4 py-2">${book.price}</td>
                 <td className="px-4 py-2">
-                  {book.approvalStatus === 'pending' ? (
+                  {book.approved === 'PENDING' ? (
                     <span className="text-yellow-500">Pending</span>
-                  ) : book.approvalStatus === 'approved' ? (
+                  ) : book.approved === 'ACCEPTED' ? (
                     <span className="text-green-500">Approved</span>
                   ) : (
                     <span className="text-red-500">Rejected</span>

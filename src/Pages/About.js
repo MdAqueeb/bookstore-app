@@ -42,7 +42,7 @@ const About = () => {
           </div>
         </section>
 
-        <section className="mb-12">
+        {/* <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-6">Meet Our Team</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white p-4 rounded-lg shadow">
@@ -73,7 +73,7 @@ const About = () => {
               <p className="text-gray-600 text-center">Community Manager</p>
             </div>
           </div>
-        </section>
+        </section> */}
       </main>
     </>
   );

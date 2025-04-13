@@ -15,6 +15,7 @@ import Wishlist from './Pages/Wishlist';
 import Cart from './Pages/Cart';
 // import Header from './Components/Header'
 import RequestSellerRole from './Pages/RequestSellerRole';
+import Checkout from './Pages/Checkout';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path='/wishlist' element={<Wishlist />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/requestsellerrole' element={<RequestSellerRole />} />
+          <Route path='/checkout' element={<Checkout />} />
         </Routes>
       </div>
     </Router>

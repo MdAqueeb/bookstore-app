@@ -43,6 +43,11 @@ const Cart = () => {
     return cart.reduce((total, item) => total + item.price, 0).toFixed(2);
   };
 
+  const handleProceedToCheckout = () => {
+    // Navigate to checkout page with cart data
+    navigate('/checkout', { state: { cart } });
+  };
+
   return (
     <>
     <HeaderLogin />
@@ -104,7 +109,7 @@ const Cart = () => {
           {/* Order Button */}
           <div className="flex justify-center">
             <button 
-              onClick={() => navigate('/checkout')} 
+              onClick={handleProceedToCheckout} 
               className="px-8 py-3 bg-green-600 text-white text-xl rounded-md hover:bg-green-700 focus:outline-none"
             >
               Proceed to Checkout

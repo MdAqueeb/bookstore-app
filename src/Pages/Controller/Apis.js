@@ -323,3 +323,241 @@ export const UpdateUserBook = async (Book,Bookid) => {
     throw error;
   }
 };
+
+export const GetAllUsers = async () => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('User is not authenticated');
+    }
+
+    const response = await axios.get(`${API_URL}/admin/users`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const DeleteUser = async (id) => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error("User is not Authenticated");
+    }
+    console.log(token);
+    
+    const response = await axios.delete(`${API_URL}/admin/users/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error in deleting item from wishlist: ", error);
+    throw error;
+  }
+}
+
+export const AcceptRequestRole = async (id) => {
+  try {
+    console.log(id);
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('User is not authenticated');
+    }
+
+    const response = await axios.put(
+      `${API_URL}/admin/AcceptRole/${id}`,{},
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const RejectRequestRole = async (id) => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('User is not authenticated');
+    }
+
+    const response = await axios.put(
+      `${API_URL}/admin/RejectRole/${id}`,{},
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const GetAllRequest = async () => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('User is not authenticated');
+    }
+
+    const response = await axios.get(`${API_URL}/admin/GetWholeRequest`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const GetSellersBooks = async () => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('User is not authenticated');
+    }
+
+    const response = await axios.get(`${API_URL}/admin/books/pending`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const GetAllSellers = async () => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('User is not authenticated');
+    }
+
+    const response = await axios.get(`${API_URL}/admin/sellers`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const ChangeSellerToUser = async (id) => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('User is not authenticated');
+    }
+
+    const response = await axios.put(
+      `${API_URL}/admin/ChangetoUser/${id}`,{},// This is the request body
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const ApproveBook = async (bookid,Approved) => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('User is not authenticated');
+    }
+
+    const response = await axios.put(
+      `${API_URL}/admin/books/${bookid}/${Approved}`,{},// This is the request body
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const GetAlladminBooks = async () => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('User is not authenticated');
+    }
+
+    const response = await axios.get(`${API_URL}/admin/books`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const RemoveBook = async (bookid) => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error("User is not Authenticated");
+    }
+    console.log(token);
+    
+    const response = await axios.delete(`${API_URL}/admin/books/${bookid}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error in deleting item from wishlist: ", error);
+    throw error;
+  }
+};
