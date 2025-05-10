@@ -35,9 +35,9 @@ const OrderList = () => {
     const handlePayNow = async (orderId) => {
         try {
         const result = await InitiatePayment(orderId); // custom API to get Razorpay order data
-
+        
         const options = {
-            key: result.key,
+            key: "rzp_test_B2OeZIQXQ0nF8q",
             amount: result.amount,
             currency: 'INR',
             name: 'Book Store',

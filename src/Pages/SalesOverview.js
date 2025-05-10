@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { GetSales } from './Controller/Apis';
 
 const SalesOverview = () => {
   const [salesData, setSalesData] = useState(null);
@@ -9,21 +9,17 @@ const SalesOverview = () => {
   useEffect(() => {
     const fetchSalesOverviewData = async () => {
       try {
-        // const data = await GetSalesOverviewData();  // Replace with your API call
-        // Simulate fetching data
-        const data = {
 
-          totalSales: 0,
-          totalOrders: 0,
-          topSellingBook: {
-            name: '',
-            salesCount: 0
-          },
-          topSellingBooks: [
-            // { id: 1, name: 'The Great Gatsby', salesCount: 120, revenue: 2400 },
-            // { id: 2, name: 'Moby Dick', salesCount: 100, revenue: 2000 }
-          ]
-        };
+        const data = await GetSales();
+        // {
+          // totalSales: 0,
+          // totalOrders: 0,
+          // topSellingBook: {
+          //   name: '',
+          //   salesCount: 0
+          // },
+          // topSellingBooks: []
+        // };
         setSalesData(data);          
       } catch (err) {
         setError('Error fetching sales data');
@@ -47,17 +43,17 @@ const SalesOverview = () => {
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h3 className="text-lg font-medium text-gray-600">Total Sales</h3>
-          <p className="text-2xl font-bold text-green-600">${salesData.totalSales}</p>
+          <p className="text-2xl font-bold text-green-600">${salesData.totalAmount}</p>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h3 className="text-lg font-medium text-gray-600">Orders Count</h3>
-          <p className="text-2xl font-bold text-blue-600">{salesData.totalOrders} Orders</p>
+          <p className="text-2xl font-bold text-blue-600">{salesData.ordercount} Orders</p>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-medium text-gray-600">This Month Selling</h3>
-          <p className="text-xl font-semibold text-gray-800">{salesData.totalSales}</p>
+          <h3 className="text-lg font-medium text-gray-600">Total Books</h3>
+          <p className="text-xl font-semibold text-gray-800">{Object.keys(salesData.var).length}</p>
           {/* <p className="text-gray-500">Sold: {salesData.topSellingBook.salesCount} times</p> */}
         </div>
       </div>
@@ -72,17 +68,17 @@ const SalesOverview = () => {
         <table className="min-w-full mt-4 table-auto">
           <thead>
             <tr>
-              <th className="px-4 py-2 text-left">Book Title</th>
-              <th className="px-4 py-2 text-left">Sales Count</th>
-              <th className="px-4 py-2 text-left">Revenue</th>
+              <th className="px-4 py-2 text-middle">Book Title</th>
+              <th className="px-4 py-2 text-middle">Book Count</th>
+              {/* <th className="px-4 py-2 text-middle">Revenue</th> */}
             </tr>
           </thead>
           <tbody>
-            {salesData.topSellingBooks.map((book) => (
-              <tr key={book.id}>
-                <td className="px-4 py-2">{book.name}</td>
-                <td className="px-4 py-2">{book.salesCount}</td>
-                <td className="px-4 py-2">${book.revenue}</td>
+            {Object.entries(salesData.var).map(([bookName,salesCount],index) => (
+              <tr key={index}>
+                <td className="px-4 py-2">{bookName}</td>
+                <td className="px-4 py-2">{salesCount}</td>
+                {/* <td className="px-4 py-2">${bookName}</td> */}
               </tr>
             ))}
           </tbody>

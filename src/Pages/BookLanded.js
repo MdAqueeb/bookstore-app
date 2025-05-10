@@ -99,10 +99,18 @@ const BookLanded = () => {
       rzp.open();
     }
     catch (buyerr){
-      setBuyError("Could not Complete purchase");
       setBuyMessage('');
+      if(buyerr.response && buyerr.response.status === 409){
+      setBuyError("You have already bought this book or the book was not found.");
+      alert("You have already bought this book or the book was not found.");
+      }
+      else{
+      setBuyError("Could not Complete purchase");
+      
       console.log(buyerr);
       alert("purchase failed.");
+      }
+
     }
     finally {
       setLoading(false);
@@ -318,7 +326,7 @@ C
                   <div className="bg-gray-50 rounded-lg p-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <p className="mb-2"><span className="font-medium">Publisher:</span> {selectedBook.seller.name}</p>
+                        <p className="mb-2"><span className="font-medium">Publisher:</span> {selectedBook.seller?.name || 'Unknown'}</p>
                       </div>
                     </div>
                   </div>

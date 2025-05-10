@@ -215,7 +215,7 @@ const Profile = () => {
                     }}
                     className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
                   >
-                    System Reports
+                    Manage Books
                   </a>
                 </li>
               </>

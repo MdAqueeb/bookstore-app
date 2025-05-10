@@ -161,11 +161,11 @@ const ManageBooks = () => {
         <table className="min-w-full mt-4 table-auto">
           <thead>
             <tr>
-              <th className="px-4 py-2 text-left">Title</th>
-              <th className="px-4 py-2 text-left">Author</th>
-              <th className="px-4 py-2 text-left">Price</th>
-              <th className="px-4 py-2 text-left">Status</th>
-              <th className="px-4 py-2 text-left">Actions</th>
+              <th className="px-4 py-2 text-middle">Title</th>
+              <th className="px-4 py-2 text-middle">Author</th>
+              <th className="px-4 py-2 text-middle">Price</th>
+              <th className="px-4 py-2 text-middle">Status</th>
+              <th className="px-4 py-2 text-middle">Actions</th>
             </tr>
           </thead>
           <tbody>

@@ -719,7 +719,7 @@ export const InitiatePayment = async (orderId) => {
       if (!token) {
         throw new Error('User is not authenticated');
       }
-      const response = await axios.get(`${API_URL}/getOrder/${orderId}`,{
+      const response = await axios.get(`${API_URL}/api/orders/${orderId}`,{
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -728,6 +728,25 @@ export const InitiatePayment = async (orderId) => {
       console.log(token);
       return response.data
     } catch (error) {
-      throw new Error('Failed to fetch Payment Data');
+      throw new Error('Failed to fetch  Data');
     }
 };
+
+export const GetSales = async () => {
+  try{
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        throw new Error('User is not authenticated');
+      }
+      const response = await axios.get(`${API_URL}/GetSales`,{
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }
+      });
+      console.log(token);
+      return response.data
+    } catch (error) {
+      throw new Error('Failed to fetch  Data');
+    }
+}

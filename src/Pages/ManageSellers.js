@@ -109,10 +109,10 @@ const ManageSellers = () => {
         <table className="min-w-full mt-4 table-auto">
           <thead>
             <tr>
-              <th className="px-4 py-2 text-left">Name</th>
-              <th className="px-4 py-2 text-left">Email</th>
-              <th className="px-4 py-2 text-left">Role</th>
-              <th className="px-4 py-2 text-left">Actions</th>
+              <th className="px-4 py-2 text-middle">Name</th>
+              <th className="px-4 py-2 text-middle">Email</th>
+              <th className="px-4 py-2 text-middle">Role</th>
+              <th className="px-4 py-2 text-middle">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -147,9 +147,9 @@ const ManageSellers = () => {
         <table className="min-w-full mt-4 table-auto">
           <thead>
             <tr>
-              <th className="px-4 py-2 text-left">Book Title</th>
-              <th className="px-4 py-2 text-left">Status</th>
-              <th className="px-4 py-2 text-left">Action</th>
+              <th className="px-4 py-2 text-middle">Book Title</th>
+              <th className="px-4 py-2 text-middle">Status</th>
+              <th className="px-4 py-2 text-middle">Action</th>
             </tr>
           </thead>
           <tbody>

@@ -134,7 +134,7 @@ const ManageAdminBooks = () => {
         <h2 className="text-lg font-semibold">Your Books</h2>
         <table className="w-full mt-4 table-auto text-sm">
           <thead>
-            <tr className="text-left border-b">
+            <tr className="text-middle border-b">
               <th>Title</th>
               <th>Author</th>
               <th>Price</th>
