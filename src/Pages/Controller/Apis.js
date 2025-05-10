@@ -1,8 +1,9 @@
 
 // import React, { useEffect, useState } from "react";
 import axios from "axios";
+// import { resolve } from "chart.js/helpers";
 
-const API_URL = 'https://bookstore-production-dc16.up.railway.app';
+const API_URL = 'http://localhost:8080';
 // src/Controller/Apis.js
 export const handleLogin = async (formData) => {
     try {
@@ -103,19 +104,19 @@ export const GetWishlist = async () => {
 
 export const AddToWishlist = async (bookid) => {
   try{
-     const token = localStorage.getItem('authToken');
-     if(!token) {
-      throw new Error("User is not Authenticated");
-     }
-     const response = await axios.post(`${API_URL}/AddWishlist/${bookid}`,{},{
-      headers :{
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
+      const token = localStorage.getItem('authToken');
+      if(!token) {
+        throw new Error("User is not Authenticated");
       }
-     });
+      const response = await axios.post(`${API_URL}/AddWishlist/${bookid}`,{},{
+        headers :{
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }
+      });
 
-     console.log(response.data);
-     return response.data;
+      console.log(response.data);
+      return response.data;
   } catch (error){
     console.error("Error adding item to wishlist:", error);
     throw error;
@@ -505,7 +506,7 @@ export const ApproveBook = async (bookid,Approved) => {
     }
 
     const response = await axios.put(
-      `${API_URL}/admin/books/${bookid}/${Approved}`,{},// This is the request body
+      `${API_URL}/admin/books/${bookid}/${Approved}`,{},
       {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -560,4 +561,173 @@ export const RemoveBook = async (bookid) => {
     console.error("Error in deleting item from wishlist: ", error);
     throw error;
   }
+};
+
+export const BuyItem = async (Book) => {
+  try{
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('User is not authenticated');
+    }
+    const response = await axios.post(`${API_URL}/api/orders/create/${Book}`,{} ,{
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+    });
+    console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error in deleting item from wishlist: ", error);
+      throw error;
+    }
+};
+
+export const handleVerifyEmail = async (email) => {
+  try {
+    const response = await fetch(`${API_URL}/VerifyEmail/${email}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+        throw new Error("Not Found");
+    }
+
+    return response; 
+  } catch (error) {
+    console.error("Email Not Found:", error.message);
+    throw error;
+  }
+}
+
+
+export const BuyCartItem = async () => {
+  try{
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('User is not authenticated');
+    }
+    const response = await axios.post(`${API_URL}/api/orders/create`,{} ,{
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+    });
+    console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+};
+
+export const GetOrders = async () => {
+  try{
+
+      const token = localStorage.getItem('authToken');
+
+      if (!token) {
+        throw new Error('User is not authenticated');
+      }
+      const response = await axios.get(`${API_URL}/api/orders/getOrders`,{
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }
+      });
+      console.log(token);
+      return response.data
+    } catch (error) {
+      throw new Error('Failed to fetch Orders Data');
+    }
+};
+
+export const CancelOrder = async (orderId) => {
+  try {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        throw new Error('User is not authenticated');
+      }
+
+      const response = await axios.put(
+        `${API_URL}/api/orders/${orderId}`,
+        {}, 
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+};
+
+export const GetPayments = async () => {
+  try{
+
+      const token = localStorage.getItem('authToken');
+
+      if (!token) {
+        throw new Error('User is not authenticated');
+      }
+      const response = await axios.get(`${API_URL}/api/payments/getPayments`,{
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }
+      });
+      console.log(token);
+      return response.data
+    } catch (error) {
+      throw new Error('Failed to fetch Payment Data');
+    }
+};
+
+export const GetPurchasedBooks = async () => {
+  try{
+
+      const token = localStorage.getItem('authToken');
+
+      if (!token) {
+        throw new Error('User is not authenticated');
+      }
+      const response = await axios.get(`${API_URL}/getPurchasedBooks`,{
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }
+      });
+      console.log(token);
+      return response.data
+    } catch (error) {
+      throw new Error('Failed to fetch Purchased Books Data');
+    }
+};
+
+export const InitiatePayment = async (orderId) => {
+  try{
+
+      const token = localStorage.getItem('authToken');
+
+      if (!token) {
+        throw new Error('User is not authenticated');
+      }
+      const response = await axios.get(`${API_URL}/getOrder/${orderId}`,{
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }
+      });
+      console.log(token);
+      return response.data
+    } catch (error) {
+      throw new Error('Failed to fetch Payment Data');
+    }
 };

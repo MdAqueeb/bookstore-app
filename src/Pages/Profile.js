@@ -11,6 +11,9 @@ import ManageBooks from './ManageBooks';
 import ManageUsers from './ManageUsers';  // Admin specific
 import ManageSellers from './ManageSellers';  // Admin specific
 import ManageAdminBooks from './ManageAdminBooks';
+import OrderList from './OrderList';
+import PaymentHistory from './PaymentHistory';
+import PurchasedBooks from './PurchasedBooks';
 // import SystemReports from './SystemReports';  // Admin specific
 
 const Profile = () => {
@@ -97,6 +100,18 @@ const Profile = () => {
                 className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
               >
                 Wishlist
+              </a>
+            </li>
+            <li>
+              <a
+                href="#Your Books"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setSelectedSection('Your Books');
+                }}
+                className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
+              >
+                My Books
               </a>
             </li>
             <li>
@@ -221,8 +236,9 @@ const Profile = () => {
       {/* Main Content */}
       <div className="flex-1 p-6">
         {selectedSection === 'wishlist' && <Wishlist />}
-        {selectedSection === 'orders' && <div>Your orders</div>}
-        {selectedSection === 'payments' && <div>Manage your payments</div>}
+        {selectedSection === 'Your Books' && <PurchasedBooks />}
+        {selectedSection === 'orders' && <OrderList />}
+        {selectedSection === 'payments' && <PaymentHistory />}
         {selectedSection === 'requestsellerrole' && userData.role === 'USER' && <RequestSellerRole />}
         {selectedSection === 'salesoverview' && userData.role === 'SELLER' && <SalesOverview />}
         {selectedSection === 'managebooks' && userData.role === 'SELLER' && <ManageBooks />}

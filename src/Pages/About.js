@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../Components/Header';
+import HeaderLogin from '../Components/HeaderLogin';
 
 const About = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if(token) {
+      setIsLoggedIn(true);
+    }
+  },[]
+  );
+
   return (
     <>
-      <Header />
+      {isLoggedIn ? <HeaderLogin /> : <Header />}
       <main className="container mx-auto px-4 py-8">
         <section className="mb-12">
           <h1 className="text-3xl font-bold mb-6 text-center">About Our Bookstore</h1>

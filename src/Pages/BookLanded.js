@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { data, Link } from 'react-router-dom';
 // import Header from '../Components/Header';
-import { GetAllBooks, AddToWishlist,AddToCart } from './Controller/Apis';
+import { GetAllBooks, AddToWishlist, AddToCart, BuyItem } from './Controller/Apis';
 import HeaderLogin from '../Components/HeaderLogin';
 
 const BookLanded = () => {
@@ -14,6 +14,8 @@ const BookLanded = () => {
   const [successmessage, setSuccessMessage] = useState(null);
   const [cartMessage,setCartMessage] = useState(null);
   const [carterr,setCartError] = useState(null);
+  const [buyMessage,setBuyMessage] = useState(null);
+  const [buyerr,setBuyError] = useState(null);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -46,16 +48,66 @@ const BookLanded = () => {
     try {
       await AddToCart(book);
       setCartError('');  // Clear any errors
-      setCartMessage('Added successfully to wishlist!');
+      setCartMessage('Added successfully to Cart!');
       console.log("Success message set:", cartMessage);  // Log here
     } catch (carterr) {
-      setCartError('Failed to Add to Wishlist.');
+      setCartError('Failed Add to Cart!.');
       setCartMessage('');
       console.log("Error occurred:", carterr);  // Log here
     } finally {
       setLoading(false);
     }
   };
+
+  const handleBuyNow = async (book) => {
+    setLoading(true);
+    try{
+      const result = await BuyItem(book);
+      setBuyError('');
+      setBuyMessage('Order Successfull');
+      console.log(result);
+
+      const options = {
+        key: result.key,
+        amount: result.amount,
+        currency: 'INR',
+        name: 'Book Store',
+        description: `Buying book: ${result.title}`,
+        order_id: result.razorpayOrderId,
+        handler: async function (res){
+          try{
+            await fetch(`http://localhost:8080/api/orders/verify-payment`,{
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+              },
+              body: JSON.stringify({
+                razorpayPaymentId: res.razorpay_payment_id,
+                razorpayOrderId: res.razorpay_order_id,
+                razorpaySignature: res.razorpay_signature
+              }),
+            });
+            alert('Payment Successfull');
+          } catch (err){
+            console.error('Payment failed',err);
+            alert('payment failed');
+          }
+        }
+      };
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    }
+    catch (buyerr){
+      setBuyError("Could not Complete purchase");
+      setBuyMessage('');
+      console.log(buyerr);
+      alert("purchase failed.");
+    }
+    finally {
+      setLoading(false);
+    }
+  }
 
 
   useEffect(() => {
@@ -195,6 +247,7 @@ const BookLanded = () => {
 C
                   type="submit"
                   className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                  onClick={() => handleBuyNow(book.bookid)}
                 >
                   Buy Now
                 </button>
@@ -250,11 +303,12 @@ C
                       </button>
                     </div>
                     <div>
-                      <Link to="/profile">
-                        <button className="w-full bg-white-600 text-blue px-4 py-2 rounded hover:bg-blue-700 transition-colors">
-                          Buy Now
-                        </button>
-                      </Link>
+                      <button
+                        className="w-full bg-white-600 text-blue px-4 py-2 rounded hover:bg-blue-700 transition-colors"
+                        onClick={() => handleBuyNow(selectedBook.bookid)}
+                      >
+                        Buy Now
+                      </button>
                     </div>
                   </div>
                 </div>

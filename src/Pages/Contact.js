@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../Components/Header';
+import HeaderLogin from '../Components/HeaderLogin';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -8,7 +9,15 @@ const Contact = () => {
     subject: '',
     message: ''
   });
-
+  const [isLoggedIn,setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    console.log('Token from localStorage:', token);
+    if(token){
+      setIsLoggedIn(true);
+    }
+  },[]
+  );
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -27,12 +36,11 @@ const Contact = () => {
 
   return (
     <>
-      <Header />
+      {isLoggedIn ? <HeaderLogin /> : <Header />}
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-8 text-center">Contact Us</h1>
         
         <div className="flex flex-col md:flex-row gap-10">
-          {/* Contact Information */}
           <div className="md:w-1/3">
             <div className="bg-blue-50 p-6 rounded-lg shadow mb-6">
               <h2 className="text-xl font-semibold mb-4">Our Information</h2>

@@ -12,7 +12,7 @@ const HeaderLogin = () => {
                 {/* InnerFirst: logo and navigation */}
                 <div className="InnerFirst flex justify-between items-center space-x-5">
                     <div>
-                        <Link to="/"><img src={logo} alt="Logo" width="80px" height="80px"/></Link>
+                        <Link to="/home"><img src={logo} alt="Logo" width="80px" height="80px"/></Link>
                     </div>
                     <h1>BookStore</h1>
 

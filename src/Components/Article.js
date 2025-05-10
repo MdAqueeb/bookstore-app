@@ -10,7 +10,7 @@ const Article1 = () => {
                 Your next great adventure starts with a book—shop online now!
                 </h1>
                  
-                <Link to="/books" className="inline-block">
+                <Link to="/allbooks" className="inline-block">
                     <button className="btn-login bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
                         Explore Books -{">"}
                     </button>

@@ -13,6 +13,7 @@ import Profile from './Pages/Profile';
 import BookLanded from './Pages/BookLanded'
 import Wishlist from './Pages/Wishlist';
 import Cart from './Pages/Cart';
+import ResetPassword from './Pages/ResetPassword';
 // import Header from './Components/Header'
 import RequestSellerRole from './Pages/RequestSellerRole';
 import Checkout from './Pages/Checkout';
@@ -39,6 +40,7 @@ function App() {
           <Route path='/cart' element={<Cart />} />
           <Route path='/requestsellerrole' element={<RequestSellerRole />} />
           <Route path='/checkout' element={<Checkout />} />
+          <Route path='resetPassword' element={<ResetPassword />}/>
         </Routes>
       </div>
     </Router>
@@ -46,6 +48,8 @@ function App() {
 }
 
 export default App;
+
+// 21716072
 
 
 

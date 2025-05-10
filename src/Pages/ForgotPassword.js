@@ -1,20 +1,32 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import Header from '../Components/Header';
+
+import { handleVerifyEmail } from './Controller/Apis';
+
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const naveigate = useNavigate();
 
   const handleChange = (e) => {
     setEmail(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Forgot password submitted for:', email);
-    // Here you would typically send a password reset email
-    setSubmitted(true);
+    try{
+      await handleVerifyEmail(email);
+      setSubmitted(true);
+      naveigate('/resetPassword',{state: {email}});
+      
+    } catch(err){
+      console.log(err);
+      naveigate('/signup');
+    }
+    
   };
 
   return (

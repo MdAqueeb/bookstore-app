@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { GetCart, RemoveCartItem } from './Controller/Apis'; // Assuming these functions interact with your API
+import { BuyCartItem, GetCart, RemoveCartItem } from './Controller/Apis'; // Assuming these functions interact with your API
 import { useNavigate } from 'react-router-dom';
 import HeaderLogin from '../Components/HeaderLogin';
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [cartMessage,setCartMessage] = useState(null);
+  const [carterr,setCartError] = useState(null);
   const navigate = useNavigate();
 
   // Fetch cart items on component mount
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const data = await GetCart(); // Assuming GetCart fetches cart items from an API
+        const data = await GetCart(); 
         setCart(data);
       } catch (error) {
         console.error("Error fetching cart:", error);
-        navigate('/homelogin'); // Redirect to login if there's an error fetching cart
+        navigate('/homelogin'); 
       }
     };
 
@@ -43,9 +46,55 @@ const Cart = () => {
     return cart.reduce((total, item) => total + item.price, 0).toFixed(2);
   };
 
-  const handleProceedToCheckout = () => {
+  const handleProceedToCheckout = async () => {
     // Navigate to checkout page with cart data
-    navigate('/checkout', { state: { cart } });
+    setLoading(true);
+    try{
+      const result = await BuyCartItem();
+      setCartError('');
+      setCartMessage('Order Successfull');
+      console.log(result);
+
+      const options = {
+        key: result.key,
+        amount: result.amount,
+        currency: 'INR',
+        name: 'Book Store',
+        description: `Buying book: ${result.title}`,
+        order_id: result.razorpayOrderId,
+        handler: async function (res){
+          try{
+            await fetch(`http://localhost:8080/api/orders/verify-payment`,{
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+              },
+              body: JSON.stringify({
+                razorpayPaymentId: res.razorpay_payment_id,
+                razorpayOrderId: res.razorpay_order_id,
+                razorpaySignature: res.razorpay_signature
+              }),
+            });
+            alert('Payment Successfull');
+          } catch (err){
+            console.error('Payment failed',err);
+            alert('payment failed');
+          }
+        }
+      };
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    }
+    catch (buyerr){
+      setCartError("Could not Complete purchase");
+      setCartMessage('');
+      console.log(buyerr);
+      alert("purchase failed.");
+    }
+    finally {
+      setLoading(false);
+    }
   };
 
   return (
